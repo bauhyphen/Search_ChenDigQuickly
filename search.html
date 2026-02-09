@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chen Dig Quickly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #3F5046;
+      font-family: 'Noto Sans TC', sans-serif;
+      color: #e8e8e8;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.75rem;
+      color: #f1ede4;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 1.75rem;
+    }
+    .input-wrap {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    input[type="text"]:focus {
+      border-color: #f1ede4;
+      box-shadow: 0 0 0 3px rgba(241, 237, 228, 0.25);
+    }
+    .btn-search {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #252525;
+      background: #f1ede4;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+    .btn-search:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    .btn-search:active {
+      transform: translateY(0);
+    }
+    .btn-search:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .platforms {
+      margin-bottom: 1.5rem;
+    }
+    .platforms-title {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+    .select-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .select-all-check {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 2px solid rgba(241, 237, 228, 0.75);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      display: inline-grid;
+      place-content: center;
+      transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+    }
+    .select-all-check::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #3F5046;
+      transform: scale(0);
+      transition: transform 0.12s ease-in-out;
+    }
+    .select-all-check:checked {
+      background: #f1ede4;
+      border-color: #f1ede4;
+      box-shadow: 0 0 0 3px rgba(241, 237, 228, 0.18);
+    }
+    .select-all-check:checked::before {
+      transform: scale(1);
+    }
+    .select-toggle label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      user-select: none;
+    }
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .platform-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .platform-check {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 2px solid rgba(241, 237, 228, 0.75);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      display: inline-grid;
+      place-content: center;
+      transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+    }
+    .platform-check::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #3F5046;
+      transform: scale(0);
+      transition: transform 0.12s ease-in-out;
+    }
+    .platform-check:checked {
+      background: #f1ede4;
+      border-color: #f1ede4;
+      box-shadow: 0 0 0 3px rgba(241, 237, 228, 0.18);
+    }
+    .platform-check:checked::before {
+      transform: scale(1);
+    }
+    .platform-item label {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      user-select: none;
+    }
+    .hint {
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.45);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Chen Dig Quickly</h1>
+    <div class="platforms">
+      <div class="platform-grid">
+        <div class="platform-item">
+          <div class="select-toggle">
+            <input class="select-all-check" type="checkbox" id="selectAllToggle">
+            <label for="selectAllToggle" id="selectAllLabel">全選</label>
+          </div>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-google" value="google" checked>
+          <label for="platform-google">Google</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-amazon" value="amazon" checked>
+          <label for="platform-amazon">Amazon</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-rakuten" value="rakuten" checked>
+          <label for="platform-rakuten">樂天JP</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-shopee" value="shopee" checked>
+          <label for="platform-shopee">蝦皮</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-momo" value="momo" checked>
+          <label for="platform-momo">Momo</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-pchome" value="pchome" checked>
+          <label for="platform-pchome">PChome</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-books" value="books" checked>
+          <label for="platform-books">博客來</label>
+        </div>
+        <div class="platform-item">
+          <input class="platform-check" type="checkbox" id="platform-eslite" value="eslite" checked>
+          <label for="platform-eslite">誠品</label>
+        </div>
+      </div>
+    </div>
+    <form id="searchForm" autocomplete="off">
+      <div class="input-wrap">
+        <input
+          type="text"
+          id="keyword"
+          name="keyword"
+          placeholder="輸入商品或關鍵字..."
+          required
+        >
+      </div>
+      <button type="submit" class="btn-search">搜尋</button>
+    </form>
+    <p class="hint">搜尋文字自動翻譯</p>
+  </div>
+  <script>
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('keyword');
+    const btn = form.querySelector('.btn-search');
+    const selectAllToggle = document.getElementById('selectAllToggle');
+    const selectAllLabel = document.getElementById('selectAllLabel');
+    const platformCheckboxes = Array.from(document.querySelectorAll('.platform-check'));
+
+    // 偵測輸入是否主要為繁體中文（含 CJK 字元）
+    function isPrimarilyChinese(text) {
+      const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+      const latin = (text.match(/[a-zA-Z]/g) || []).length;
+      return cjk >= latin;
+    }
+
+    // 呼叫 MyMemory 免費翻譯 API
+    function translate(text, langpair) {
+      const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + langpair;
+      return fetch(url)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          const result = data.responseData && data.responseData.translatedText;
+          return result || text;
+        })
+        .catch(function () { return text; });
+    }
+
+    // 取得已勾選的平台
+    function getSelectedPlatforms() {
+      const checkboxes = document.querySelectorAll('.platform-check:checked');
+      return Array.from(checkboxes).map(function (cb) { return cb.value; });
+    }
+
+    function setAllPlatformsChecked(checked) {
+      platformCheckboxes.forEach(function (cb) {
+        cb.checked = checked;
+      });
+    }
+
+    function syncSelectAllUI() {
+      const allChecked = platformCheckboxes.length > 0 && platformCheckboxes.every(function (cb) { return cb.checked; });
+      selectAllToggle.checked = allChecked;
+      selectAllLabel.textContent = '全選';
+    }
+
+    // 根據平台和關鍵字產生搜尋URL
+    function getSearchUrl(platform, keyword) {
+      const encoded = encodeURIComponent(keyword);
+      switch (platform) {
+        case 'google':
+          return 'https://www.google.com/search?q=' + encoded;
+        case 'amazon':
+          return 'https://www.amazon.com/-/zh_TW/s?k=' + encoded;
+        case 'rakuten':
+          return 'https://search.rakuten.co.jp/search/mall/' + encoded + '/';
+        case 'shopee':
+          return 'https://shopee.tw/search?keyword=' + encoded;
+        case 'momo':
+          return 'https://www.momoshop.com.tw/search/' + encoded;
+        case 'pchome':
+          return 'https://24h.pchome.com.tw/search/?q=' + encoded;
+        case 'books':
+          return 'https://search.books.com.tw/search/query/key/' + encoded + '/cat/all';
+        case 'eslite':
+          return 'https://www.eslite.com/Search?keyword=' + encoded;
+        default:
+          return null;
+      }
+    }
+
+    // 決定各平台需要的關鍵字（是否需要翻譯）
+    function getPlatformKeywords(originalKeyword, platforms) {
+      const isChinese = isPrimarilyChinese(originalKeyword);
+      const promises = {};
+      const translations = {};
+
+      platforms.forEach(function (platform) {
+        switch (platform) {
+          case 'google':
+            // Google 用原文
+            promises[platform] = Promise.resolve(originalKeyword);
+            break;
+          case 'amazon':
+            // Amazon: 中文翻成英文，英文用原文
+            if (isChinese) {
+              promises[platform] = translate(originalKeyword, 'zh-TW|en');
+            } else {
+              promises[platform] = Promise.resolve(originalKeyword);
+            }
+            break;
+          case 'rakuten':
+            // 樂天JP: 中文翻成日文，英文用原文（或翻成日文？先用英文）
+            if (isChinese) {
+              promises[platform] = translate(originalKeyword, 'zh-TW|ja');
+            } else {
+              promises[platform] = Promise.resolve(originalKeyword);
+            }
+            break;
+          case 'shopee':
+          case 'momo':
+          case 'pchome':
+          case 'books':
+          case 'eslite':
+            // 蝦皮、Momo、PChome、博客來、誠品: 英文翻成中文，中文用原文
+            if (!isChinese) {
+              promises[platform] = translate(originalKeyword, 'en|zh-TW');
+            } else {
+              promises[platform] = Promise.resolve(originalKeyword);
+            }
+            break;
+        }
+      });
+
+      return promises;
+    }
+
+    // 全選 / 自選切換：全選時自動勾滿；取消時全取消
+    selectAllToggle.addEventListener('change', function () {
+      if (selectAllToggle.checked) {
+        setAllPlatformsChecked(true);
+      } else {
+        setAllPlatformsChecked(false);
+      }
+    });
+
+    // 手動勾選平台時，自動同步全選/自選狀態
+    platformCheckboxes.forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        syncSelectAllUI();
+      });
+    });
+
+    // 初始化：預設全選
+    setAllPlatformsChecked(true);
+    syncSelectAllUI();
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const keyword = input.value.trim();
+      if (!keyword) return;
+
+      const selectedPlatforms = getSelectedPlatforms();
+      if (selectedPlatforms.length === 0) {
+        alert('請至少選擇一個搜尋平台');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '搜尋中…';
+
+      const keywordPromises = getPlatformKeywords(keyword, selectedPlatforms);
+      const promiseArray = selectedPlatforms.map(function (platform) {
+        return keywordPromises[platform];
+      });
+
+      Promise.all(promiseArray).then(function (keywords) {
+        selectedPlatforms.forEach(function (platform, index) {
+          const platformKeyword = keywords[index];
+          const url = getSearchUrl(platform, platformKeyword);
+          if (url) {
+            setTimeout(function () {
+              window.open(url, '_blank', 'noopener,noreferrer');
+            }, index * 100);
+          }
+        });
+      }).catch(function () {
+        // 翻譯失敗時仍用原關鍵字開啟所有選中的平台
+        selectedPlatforms.forEach(function (platform, index) {
+          const url = getSearchUrl(platform, keyword);
+          if (url) {
+            setTimeout(function () {
+              window.open(url, '_blank', 'noopener,noreferrer');
+            }, index * 100);
+          }
+        });
+      }).finally(function () {
+        btn.disabled = false;
+        btn.textContent = '搜尋';
+      });
+    });
+  </script>
+</body>
+</html>
