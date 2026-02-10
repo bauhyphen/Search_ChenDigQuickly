@@ -199,6 +199,47 @@
       color: rgba(255, 255, 255, 0.45);
       text-align: center;
     }
+
+    /* RWD: 手機版 (< 600px) */
+    @media (max-width: 600px) {
+      body {
+        padding: 1.25rem 1rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+      }
+      .card {
+        padding: 1.5rem 1rem;
+        border-radius: 16px;
+      }
+      h1 {
+        font-size: 1.35rem;
+        margin-bottom: 1.25rem;
+      }
+      .input-wrap {
+        margin-bottom: 1rem;
+      }
+      input[type="text"] {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+      }
+      .btn-search {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+      }
+      .platforms {
+        margin-bottom: 1.25rem;
+      }
+      .select-toggle label {
+        font-size: 0.85rem;
+      }
+      .platform-item label {
+        font-size: 0.8125rem;
+      }
+      .hint {
+        font-size: 0.75rem;
+        margin-top: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
