@@ -15,12 +15,18 @@
     }
     body {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: #3F5046;
       font-family: 'Noto Sans TC', sans-serif;
       color: #e8e8e8;
+    }
+    .parent-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
     .card {
       background: rgba(255, 255, 255, 0.06);
@@ -202,10 +208,9 @@
 
     /* RWD: 手機版 (< 600px) */
     @media (max-width: 600px) {
-      body {
-        padding: 1.25rem 1rem;
+      .parent-container {
+        padding: 2rem 1rem 1.25rem;
         align-items: flex-start;
-        padding-top: 2rem;
       }
       .card {
         padding: 1.5rem 1rem;
@@ -243,6 +248,7 @@
   </style>
 </head>
 <body>
+  <div class="parent-container">
   <div class="card">
     <h1>Chen Dig Quickly</h1>
     <div class="platforms">
@@ -300,6 +306,7 @@
       <button type="submit" class="btn-search">搜尋</button>
     </form>
     <p class="hint">搜尋文字自動翻譯</p>
+  </div>
   </div>
   <script>
     const form = document.getElementById('searchForm');
