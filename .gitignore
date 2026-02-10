@@ -1,0 +1,8 @@
+# 忽略 Google API 金鑰
+credentials.json
+
+# 忽略 macOS 系統垃圾檔
+.DS_Store
+
+# 忽略環境變數
+.env
