@@ -6,3 +6,4 @@ credentials.json
 
 # 忽略環境變數
 .env
+VERCEL_部署教學.md
